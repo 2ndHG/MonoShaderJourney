@@ -25,6 +25,12 @@
 /processorParam:DebugMode=Auto
 /build:LightingShader.fx
 
+#begin MultiLightA.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:MultiLightA.fx
+
 #begin MultiLightShader.fx
 /importer:EffectImporter
 /processor:EffectProcessor
