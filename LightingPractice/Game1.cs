@@ -125,11 +125,11 @@ public class Game1 : Game
     {
         _multiLightA = Content.WatchMaterial("MultiLightA");
         multiLightAData = new();
-        multiLightAData.Colors = [Color.Gold.ToVector4(), Color.White.ToVector4(), Color.Cyan.ToVector4()];
+        multiLightAData.Colors = [Color.Gold.ToVector4(), Color.White.ToVector4(), Color.Aqua.ToVector4()];
         multiLightAData.Radii = [20, 20, 25];
         multiLightAData.Positions = [new(20, 30), new(60, 60), new(30, 55)];
-        multiLightAData.InnerRatios = [.1f, .5f, .4f];
-        multiLightAData.Intensities = [1, 1, 1];
+        multiLightAData.InnerRatios = [.1f, .3f, .4f];
+        multiLightAData.Intensities = [1f, 1f, 1f];
         
     }
     private void MultiLightATest()
@@ -139,14 +139,14 @@ public class Game1 : Game
         Point mousePosition = Mouse.GetState().Position;
         
 
-        _multiLightA.Effect.Parameters["CanvasSize"].SetValue(new Vector2(_lightMap.Width, _lightMap.Height));
-        _multiLightA.Effect.Parameters["Position"].SetValue([.. multiLightAData.Positions]);
-        _multiLightA.Effect.Parameters["Radii"].SetValue([.. multiLightAData.Radii]);
-        _multiLightA.Effect.Parameters["InnerRatios"].SetValue([.. multiLightAData.InnerRatios]);
-        _multiLightA.Effect.Parameters["Intensities"].SetValue([.. multiLightAData.Intensities]);
-        _multiLightA.Effect.Parameters["Colors"].SetValue([.. multiLightAData.Colors]);
-        _multiLightA.Effect.Parameters["LightCount"].SetValue(3);
-        _multiLightA.Effect.Parameters["Position"].SetValue([new Vector2(15, 15), new Vector2(60f, 60), new Vector2(mousePosition.X, mousePosition.Y)/5f]);
+        _multiLightA.Effect.Parameters["CanvasSize"]?.SetValue(new Vector2(_lightMap.Width, _lightMap.Height));
+        _multiLightA.Effect.Parameters["Position"]?.SetValue([.. multiLightAData.Positions]);
+        _multiLightA.Effect.Parameters["Radii"]?.SetValue([.. multiLightAData.Radii]);
+        _multiLightA.Effect.Parameters["InnerRatios"]?.SetValue([.. multiLightAData.InnerRatios]);
+        _multiLightA.Effect.Parameters["Intensities"]?.SetValue([.. multiLightAData.Intensities]);
+        _multiLightA.Effect.Parameters["Colors"]?.SetValue([.. multiLightAData.Colors]);
+        _multiLightA.Effect.Parameters["LightCount"]?.SetValue(3);
+        _multiLightA.Effect.Parameters["Position"]?.SetValue([new Vector2(15, 15), new Vector2(60f, 60), new Vector2(mousePosition.X, mousePosition.Y)/5f]);
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied, effect: _multiLightA.Effect);
 
         _spriteBatch.Draw(_whiteDotTexture, new Rectangle(0, 0, 80, 80), new Rectangle(0, 0, 1, 1), Color.White);
