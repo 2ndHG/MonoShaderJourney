@@ -13,9 +13,9 @@ static const int MAX_LIGHTS = 4;
 int LightCount = 0;
 float2 CanvasSize = float2(1, 1);
 
-float2 Position[MAX_LIGHTS]; 	// in pixel
-float Radii[MAX_LIGHTS];		// in pixel
-float InnerRatios[MAX_LIGHTS];	// 0 ~ 1, the pixel has distance  has full color of Colors[i]
+float2 Position[MAX_LIGHTS]; // in pixel
+float Radii[MAX_LIGHTS];
+float InnerRatios[MAX_LIGHTS];
 float Intensities[MAX_LIGHTS];
 float4 Colors[MAX_LIGHTS];
 
@@ -36,7 +36,6 @@ struct VertexShaderOutput
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
 	float3 finalColor = float3(0.0, 0.0, 0.0);
-	// float widthHeightRatio = canvasSize.x / canvasSize.y;
 	for (int i = 0; i < LightCount; ++i)
 	{
 		float2 pixelPosition = input.TextureCoordinates * CanvasSize;
