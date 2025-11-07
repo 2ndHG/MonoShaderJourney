@@ -75,7 +75,7 @@ float4 MainPS2(VertexShaderOutput input) : COLOR
 
     float blockerAlpha = tex2D(BlockerSampler, blockerUV).a * distanceToSource ;
 
-    float attenuation = 1.0- distanceToSource;
+    float attenuation = 1.0 - distanceToSource;
 	attenuation = smoothstep(0.5, 1.0, attenuation);
     float shadow = blockerAlpha * attenuation;
 
@@ -83,9 +83,39 @@ float4 MainPS2(VertexShaderOutput input) : COLOR
          + tex2D(SpriteTextureSampler, input.TextureCoordinates) * 0.0000001;
 }
 
+float4 LightWithShadow(VertexShaderOutput input) : COLOR
+{
+	float2 lightSourceUV = LightPosition / CanvasSize;
+    float2 pixelUV = input.TextureCoordinates;
+	
+	float2 dir = pixelUV - lightSourceUV;
+	float2 dirCopy = dir;
+	dirCopy.x = dirCopy.x * CanvasSize.x / CanvasSize.y;
+    float distanceToSource = length(dir);
+	
+	float radius = 0.2;
+
+	// float lightVolume = saturate((radius - distanceToSource) / radius);
+	float lightVolume = 1.0 - length(dirCopy);
+
+
+	float3 finalColor = tex2D(SpriteTextureSampler, input.TextureCoordinates) ;
+	finalColor = finalColor * input.Color.rgb;
+
+	// calculate shadow
+	float k = 0.5;
+    float scale = 1.0 + k * distanceToSource;
+
+    float2 blockerUV = lightSourceUV + dir / scale - dir * 0.4;
+
+    float blockerAlpha = tex2D(BlockerSampler, blockerUV).a * (1.0-distanceToSource);
+
+	return float4(finalColor, saturate (lightVolume * (1.0-blockerAlpha)));
+}
+
 technique SpriteDrawing{
 	pass P0{
-		PixelShader = compile PS_SHADERMODEL MainPS2();
+		PixelShader = compile PS_SHADERMODEL LightWithShadow();
 }
 }
 ;

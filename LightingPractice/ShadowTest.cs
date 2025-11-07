@@ -45,16 +45,24 @@ public class ShadowTest
         Game1.GameSpriteBatch.Draw(_blockerTexture, new Vector2(0, 0), Color.White);
         Game1.GameSpriteBatch.End();
 
-        Game1.GameGraphicsDevice.SetRenderTarget(null);
+        Game1.GameGraphicsDevice.SetRenderTarget(_resultRT);
         Point mousePos = Mouse.GetState().Position;
         _shadowEffect.Effect.Parameters["CanvasSize"]?.SetValue(new Vector2(480, 270));
         _shadowEffect.Effect.Parameters["BlockerTexture"]?.SetValue(_blockerTexture);
         _shadowEffect.Effect.Parameters["LightPosition"]?.SetValue(new Vector2(mousePos.X, mousePos.Y));
-        Game1.GameGraphicsDevice.Clear(Color.White);
+        Game1.GameGraphicsDevice.Clear(Color.Transparent);
         Game1.GameSpriteBatch.Begin(samplerState: SamplerState.PointClamp, effect: _shadowEffect.Effect);
-        Game1.GameSpriteBatch.Draw(_whiteDot, new Rectangle(0, 0, 480, 270), Color.White);
+        Game1.GameSpriteBatch.Draw(_whiteDot, new Rectangle(0, 0, 160, 90), Color.Yellow);
         Game1.GameSpriteBatch.End();
-        Game1.GameSpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        // Game1.GameSpriteBatch.Begin(samplerState: SamplerState.PointClamp, effect: _shadowEffect.Effect);
+        // _shadowEffect.Effect.Parameters["LightPosition"]?.SetValue(new Vector2(-mousePos.X, mousePos.Y));
+        // Game1.GameSpriteBatch.Draw(_whiteDot, new Rectangle(80, 0, 80, 90), Color.Yellow);
+        // Game1.GameSpriteBatch.End();
+
+        Game1.GameGraphicsDevice.SetRenderTarget(null);
+        Game1.GameGraphicsDevice.Clear(Color.Black);
+        Game1.GameSpriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.NonPremultiplied);
+        Game1.GameSpriteBatch.Draw(_resultRT, new Rectangle(0, 0, 480, 270), Color.White);
         Game1.GameSpriteBatch.Draw(_blockerRT, new Rectangle(0, 0, 480, 270), Color.White);
         Game1.GameSpriteBatch.End();
 
